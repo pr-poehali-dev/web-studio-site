@@ -5,6 +5,7 @@ import Icon from '@/components/ui/icon';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -84,8 +85,11 @@ const Index = () => {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="text-2xl font-bold">WEB STUDIO</div>
+            <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+              <Icon name={mobileMenuOpen ? 'X' : 'Menu'} size={24} />
+            </button>
             <div className="hidden md:flex gap-8">
-              {['Главная', 'Портфолио', 'Услуги', 'О нас', 'Команда', 'Процесс', 'Кейсы', 'Блог', 'Контакты'].map((item, idx) => (
+              {['Главная', 'Портфолио', 'Услуги', 'О нас', 'Команда', 'Процесс', 'Кейсы', 'Контакты'].map((item, idx) => (
                 <button
                   key={idx}
                   onClick={() => scrollToSection(item.toLowerCase())}
@@ -97,6 +101,24 @@ const Index = () => {
             </div>
           </div>
         </div>
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t bg-white/95 backdrop-blur-md">
+            <div className="container mx-auto px-6 py-4 flex flex-col gap-4">
+              {['Главная', 'Портфолио', 'Услуги', 'О нас', 'Команда', 'Процесс', 'Кейсы', 'Контакты'].map((item, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => {
+                    scrollToSection(item.toLowerCase());
+                    setMobileMenuOpen(false);
+                  }}
+                  className="text-left text-sm hover:text-primary transition-colors"
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </nav>
 
       <section id="главная" className="pt-32 pb-20 px-6">
@@ -235,28 +257,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="блог" className="py-20 px-6 bg-secondary/30">
-        <div className="container mx-auto">
-          <h2 className="text-5xl font-bold mb-12">Блог</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((idx) => (
-              <Card key={idx} className="overflow-hidden hover-scale">
-                <div className="aspect-video bg-secondary"></div>
-                <div className="p-6">
-                  <div className="text-sm text-muted-foreground mb-2">23 октября 2025</div>
-                  <h3 className="text-xl font-bold mb-3">Тренды веб-дизайна 2025</h3>
-                  <p className="text-muted-foreground text-sm mb-4">
-                    Разбираем главные направления в дизайне веб-интерфейсов
-                  </p>
-                  <button className="story-link text-sm">Читать статью</button>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="контакты" className="py-20 px-6">
+      <section id="контакты" className="py-20 px-6 bg-secondary/30">
         <div className="container mx-auto">
           <div className="grid md:grid-cols-2 gap-16">
             <div>
@@ -320,7 +321,7 @@ const Index = () => {
               <ul className="space-y-2 text-sm opacity-80">
                 <li>О нас</li>
                 <li>Портфолио</li>
-                <li>Блог</li>
+                <li>Контакты</li>
               </ul>
             </div>
             <div>
